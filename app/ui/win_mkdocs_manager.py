@@ -3,6 +3,7 @@
 from gi.repository import Gtk
 
 from ..model.document import Document
+from .dlg_confirmation import ConfirmationDialog
 
 
 class WinMkDocsManager(Gtk.Window):
@@ -43,3 +44,29 @@ class WinMkDocsManager(Gtk.Window):
         self._scrollable_docs_tree.add(self._docs_tree)
 
         self._box_layout.pack_start(self._scrollable_docs_tree, True, True, 0)
+
+        # Create a buttons box
+        self._buttons_box = Gtk.ButtonBox(orientation=Gtk.Orientation.HORIZONTAL,
+                                          halign=Gtk.Align.FILL)
+        self._box_layout.pack_end(self._buttons_box, False, False, 0)
+
+        # "Close" button
+        self._btn_close = Gtk.Button(label="_Close",
+                                     use_underline=True)
+        self._btn_close.connect("clicked", self._on_close)
+        self._buttons_box.pack_start(self._btn_close, False, True, 0)
+
+        # "Add new documentation" button
+        self._btn_add_doc = Gtk.Button(label="_Add new documentation",
+                                       use_underline=True)
+        self._buttons_box.pack_end(self._btn_add_doc, False, True, 0)
+
+    def _on_close(self, button):
+        """
+        Handle the "clicked" event on the "Close" button
+        """
+        dlg = ConfirmationDialog(text="MkDocs Manager",
+                                 secondary_text="Do you really want to exit the application?")
+
+        if dlg.run() == Gtk.ResponseType.YES:
+            Gtk.main_quit()
