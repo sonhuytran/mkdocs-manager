@@ -17,22 +17,29 @@ class WinMkDocsManager(Gtk.Window):
                             default_width=640,
                             default_height=480)
 
+        # The main BoxLayout of the window
         self._box_layout = Gtk.Box(spacing=5,
                                    border_width=5,
                                    orientation=Gtk.Orientation.VERTICAL)
         self.add(self._box_layout)
 
-        self._documents = Gtk.TreeStore(Document.__gtype__)
-        self._documents_tree = Gtk.TreeView(model=self._documents)
+        # The search box Entry
+        self._txt_search = Gtk.Entry(placeholder_text="Search for a documentation here")
+        self._box_layout.pack_start(self._txt_search, False, True, 0)
 
+        # The documentations TreeView
+        self._docs = Gtk.TreeStore(Document.__gtype__)
+        self._docs_tree = Gtk.TreeView(model=self._docs)
+
+        # Add columns to the TreeView
         for i, column_title in enumerate(["Documentation", "Directory", "Port"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(column_title, renderer, text=i)
-            self._documents_tree.append_column(column)
+            self._docs_tree.append_column(column)
 
-        #setting up the layout, putting the treeview in a scrollwindow, and the buttons in a row
-        self.scrollable_treelist = Gtk.ScrolledWindow()
-        self.scrollable_treelist.set_vexpand(True)
-        self.scrollable_treelist.add(self._documents_tree)
+        # Put the TreeView in a ScrolledWindow
+        self._scrollable_docs_tree = Gtk.ScrolledWindow()
+        self._scrollable_docs_tree.set_vexpand(True)
+        self._scrollable_docs_tree.add(self._docs_tree)
 
-        self._box_layout.pack_start(self.scrollable_treelist, True, True, 5)
+        self._box_layout.pack_start(self._scrollable_docs_tree, True, True, 0)
