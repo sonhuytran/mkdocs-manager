@@ -7,7 +7,7 @@ __version__ = '1.0'
 import sys
 from gi.repository import Gtk
 
-from .ui.main import WinMkDocsManager
+from .ui.win_mkdocs_manager import WinMkDocsManager
 from .utils.log import getLogger
 
 
