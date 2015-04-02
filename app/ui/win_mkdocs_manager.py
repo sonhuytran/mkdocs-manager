@@ -16,8 +16,8 @@ class WinMkDocsManager(Gtk.Window):
         Gtk.Window.__init__(self,
                             title="MkDocs Manager",
                             window_position=Gtk.WindowPosition.CENTER,
-                            default_width=640,
-                            default_height=480)
+                            default_width=1024,
+                            default_height=768)
 
         # The main BoxLayout of the window
         self._box_layout = Gtk.Box(spacing=5,
@@ -34,7 +34,7 @@ class WinMkDocsManager(Gtk.Window):
         self._docs_tree = Gtk.TreeView(model=self._docs)
 
         # Add columns to the TreeView
-        for i, column_title in enumerate(["Documentation", "Directory", "Port"]):
+        for i, column_title in enumerate(["Documentation", "Directory", "Default Port"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(column_title, renderer, text=i)
             self._docs_tree.append_column(column)
@@ -68,7 +68,7 @@ class WinMkDocsManager(Gtk.Window):
         Handle the "clicked event on the "Add new documentation" button
         """
         win_add_doc = WinAddDocumentation(self)
-        win_add_doc.show()
+        win_add_doc.show_all()
 
     def _on_close(self, button):
         """
