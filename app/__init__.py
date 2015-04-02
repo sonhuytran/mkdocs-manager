@@ -5,13 +5,16 @@ __doc__ = ''
 __version__ = '1.0'
 
 import sys
-
 from gi.repository import Gtk
 
 from .ui.main import WinMkDocsManager
+from .utils.log import getLogger
 
 
 def main():
+    logger = getLogger()
+    logger.info("App Started")
+
     win = WinMkDocsManager()
     win.connect("delete-event", Gtk.main_quit)
     win.show_all()
