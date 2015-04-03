@@ -53,7 +53,7 @@ class WinMkDocsManager(Gtk.Window):
 
         # "Close" button
         self._btn_exit = Gtk.Button(label="E_xit",
-                                     use_underline=True)
+                                    use_underline=True)
         self._btn_exit.connect("clicked", self._on_close)
         self._buttons_box.pack_start(self._btn_exit, False, True, 0)
 
@@ -74,7 +74,8 @@ class WinMkDocsManager(Gtk.Window):
         """
         Handle the "clicked" event on the "Close" button
         """
-        dlg = ConfirmationDialog(text="MkDocs Manager",
+        dlg = ConfirmationDialog(parent=self,
+                                 text="Exit program",
                                  secondary_text="Do you really want to exit the application?")
 
         if dlg.run() == Gtk.ResponseType.YES:

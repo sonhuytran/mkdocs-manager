@@ -7,6 +7,7 @@ __version__ = '1.0'
 from gi.repository import Gtk
 
 from ..utils import config
+from .dlg_error import ErrorDialog
 
 
 class WinAddDocumentation(Gtk.Window):
@@ -59,7 +60,18 @@ class WinAddDocumentation(Gtk.Window):
         self._button_box.pack_end(self._btn_add, False, False, 0)
 
     def _on_btn_add_clicked(self, btn_add):
-        print("Button Add clicked")
+        document = {
+            "name": self._txt_doc_name.get_text(),
+            "port": self._txt_doc_port.get_text(),
+            "path": self._btn_doc_path.get_current_folder()
+        }
+
+        if not document["name"]:
+            dlg = ErrorDialog(parent=self,
+                              text="Error: Missing Information!",
+                              secondary_text="A document must have a name")
+            dlg.run()
+            dlg.destroy()
 
     def _on_btn_cancel_clicked(self, btn_cancel):
         self.destroy()
