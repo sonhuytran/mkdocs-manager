@@ -2,6 +2,7 @@
 
 from gi.repository import Gtk
 
+from ..model import db
 from ..model.document import Document
 from .win_add_doc import WinAddDocumentation
 from .dlg_confirmation import ConfirmationDialog
@@ -62,6 +63,8 @@ class WinMkDocsManager(Gtk.Window):
                                        use_underline=True)
         self._btn_add_doc.connect("clicked", self._on_new_doc)
         self._buttons_box.pack_end(self._btn_add_doc, False, True, 0)
+
+        print("Documents=", db.get_documents())
 
     def _on_new_doc(self, button):
         """

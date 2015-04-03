@@ -4,12 +4,17 @@ __email__ = "sonhuytran@gmail.com"
 __doc__ = ''
 __version__ = '1.0'
 
+from uuid import uuid4
+
 from gi.repository import Gtk
 
 from ..utils import config
-from .dlg_error import ErrorDialog
+from ..model import db
 from ..model.document import Document
+from .dlg_error import ErrorDialog
 
+
+# noinspection PyUnresolvedReferences,PyCallByClass,PyTypeChecker,PyUnusedLocal
 class WinAddDocumentation(Gtk.Window):
     def __init__(self, parent):
         Gtk.Window.__init__(self,
@@ -59,16 +64,40 @@ class WinAddDocumentation(Gtk.Window):
         self._btn_add.connect("clicked", self._on_btn_add_clicked)
         self._button_box.pack_end(self._btn_add, False, False, 0)
 
-    def _on_btn_add_clicked(self, btn_add):
-        document = Document()
-        print("port=", document.get_property("port"))
+    def _validate_inputs(self):
+        # Validate name
+        name = self._txt_doc_name.get_text()
 
-        # if not document["name"]:
-        # dlg = ErrorDialog(parent=self,
-        #                       text="Error: Missing Information!",
-        #                       secondary_text="A document must have a name")
-        #     dlg.run()
-        #     dlg.destroy()
+        if not name:
+            raise ValueError("Documentation's name must not empty")
+
+        # Validate path
+        path = self._btn_doc_path.get_current_folder()
+
+        if not path:
+            raise ValueError("Documentation's path must not empty")
+
+        # Validate port
+        try:
+            int(self._txt_doc_port.get_text())
+        except ValueError:
+            raise ValueError("Invalid documentation's default port number")
+
+    def _on_btn_add_clicked(self, btn_add):
+        try:
+            self._validate_inputs()
+            document = Document(
+                id=uuid4(),
+                name=self._txt_doc_name.get_text(),
+                path=self._btn_doc_path.get_current_folder(),
+                port=int(self._txt_doc_port.get_text()))
+            db.append_document(document)
+            self.destroy()
+        except (TypeError, ValueError) as e:
+            dlg = ErrorDialog(self,
+                              text=e.message)
+            dlg.run()
+            dlg.destroy()
 
     def _on_btn_cancel_clicked(self, btn_cancel):
         self.destroy()
