@@ -52,10 +52,10 @@ class WinMkDocsManager(Gtk.Window):
         self._box_layout.pack_end(self._buttons_box, False, False, 0)
 
         # "Close" button
-        self._btn_close = Gtk.Button(label="_Close",
+        self._btn_exit = Gtk.Button(label="E_xit",
                                      use_underline=True)
-        self._btn_close.connect("clicked", self._on_close)
-        self._buttons_box.pack_start(self._btn_close, False, True, 0)
+        self._btn_exit.connect("clicked", self._on_close)
+        self._buttons_box.pack_start(self._btn_exit, False, True, 0)
 
         # "Add new documentation" button
         self._btn_add_doc = Gtk.Button(label="_Add new documentation",
@@ -78,4 +78,4 @@ class WinMkDocsManager(Gtk.Window):
                                  secondary_text="Do you really want to exit the application?")
 
         if dlg.run() == Gtk.ResponseType.YES:
-            Gtk.main_quit()
+            self.destroy()

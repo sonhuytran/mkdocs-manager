@@ -6,6 +6,8 @@ __version__ = '1.0'
 
 from gi.repository import Gtk
 
+from ..utils import config
+
 
 class WinAddDocumentation(Gtk.Window):
     def __init__(self, parent):
@@ -37,4 +39,27 @@ class WinAddDocumentation(Gtk.Window):
                                               halign=Gtk.Align.START),
                                     False, False, 0)
         self._btn_doc_path = Gtk.FileChooserWidget(action=Gtk.FileChooserAction.SELECT_FOLDER)
+        self._btn_doc_path.set_current_folder(config.get_last_used_doc_path())
         self._box_layout.pack_start(self._btn_doc_path, True, True, 0)
+
+        # Buttons
+        self._button_box = Gtk.HButtonBox()
+        self._box_layout.pack_start(self._button_box, False, True, 0)
+
+        # Button cancel
+        self._btn_cancel = Gtk.Button(label="_Cancel",
+                                      use_underline=True)
+        self._btn_cancel.connect("clicked", self._on_btn_cancel_clicked)
+        self._button_box.pack_start(self._btn_cancel, False, False, 0)
+
+        # Button add doc
+        self._btn_add = Gtk.Button(label="_Add",
+                                   use_underline=True)
+        self._btn_add.connect("clicked", self._on_btn_add_clicked)
+        self._button_box.pack_end(self._btn_add, False, False, 0)
+
+    def _on_btn_add_clicked(self, btn_add):
+        print("Button Add clicked")
+
+    def _on_btn_cancel_clicked(self, btn_cancel):
+        self.destroy()
