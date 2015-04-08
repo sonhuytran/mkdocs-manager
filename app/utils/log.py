@@ -15,8 +15,12 @@ import logging
 import sys
 from os import path, makedirs
 
-from .path import APP_FOLDER
+CURRENT_PATH = path.dirname(path.abspath(path.realpath(__file__)))
 
+if getattr(sys, 'frozen', None):
+    APP_FOLDER = path.join(CURRENT_PATH, '..', '..', '..', 'app')
+else:
+    APP_FOLDER = path.join(CURRENT_PATH, '..')
 
 _log_format = '%(asctime)s - %(levelname)s - %(name)s - %(message)s'
 

@@ -11,13 +11,6 @@ setup(
             'mkman=app:main'
         ]
     },
-    windows=[
-        {
-            'script': "app/__main__.py",
-            'dest_base': 'bajoo',
-            'icon_resources': [(0, "bajoo/assets/images/bajoo.ico")]
-        }
-    ],
     # test_suite='tests',
     # tests_require=['mock'],
 )
