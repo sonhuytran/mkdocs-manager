@@ -8,7 +8,7 @@ setup(
     install_requires=[],
     entry_points={
         'console_scripts': [
-            'mkman=app:main'
+            'mkcman=app:main'
         ]
     },
     # test_suite='tests',

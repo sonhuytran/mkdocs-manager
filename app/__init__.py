@@ -40,7 +40,7 @@ def main():
         for doc in data:
             subprocess.Popen(["mkdocs", "serve", "--dev-addr=127.0.0.1:" + str(doc["port"])],
                              cwd=doc["path"], shell=True)
-            html_file.write("<a href='http://127.0.0.1:" + str(doc["port"]) + "'>" +
+            html_file.write("<a target='_blank' href='http://127.0.0.1:" + str(doc["port"]) + "'>" +
                             doc["path"] + "</a><br/>")
 
         html_file.close()
