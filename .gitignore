@@ -1,6 +1,6 @@
 # Project-Specific
-mkdocs-console.json
-index.html
+app/mkdocs-console.json
+app/index.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
