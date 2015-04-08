@@ -91,3 +91,7 @@ class Document(GObject.GObject):
                         name=value["name"],
                         path=value["path"],
                         port=value["port"])
+
+    @staticmethod
+    def deserialize_all(values):
+        return [Document.deserialize(value) for value in values]

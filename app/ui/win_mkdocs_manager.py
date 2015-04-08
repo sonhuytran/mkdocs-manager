@@ -34,10 +34,24 @@ class WinMkDocsManager(Gtk.Window):
         self._docs = Gtk.TreeStore(Document.__gtype__)
         self._docs_tree = Gtk.TreeView(model=self._docs)
 
+        def get_name(column, cell, model, iter, data):
+            cell.set_property('text', self._docs.get_value(iter, 0).get_name())
+
+        def get_path(column, cell, model, iter, data):
+            cell.set_property('text', self._docs.get_value(iter, 0).get_path())
+
+        def get_port(column, cell, model, iter, data):
+            cell.set_property('text', str(self._docs.get_value(iter, 0).get_port()))
+
+        column_titles = ["Documentation", "Directory", "Default Port"]
+        prop_funcs = [get_name, get_path, get_port]
+
         # Add columns to the TreeView
-        for i, column_title in enumerate(["Documentation", "Directory", "Default Port"]):
-            renderer = Gtk.CellRendererText()
-            column = Gtk.TreeViewColumn(column_title, renderer, text=i)
+        for i, column_title in enumerate(column_titles):
+            cell = Gtk.CellRendererText()
+            column = Gtk.TreeViewColumn(column_title)
+            column.pack_start(cell, True)
+            column.set_cell_data_func(cell, prop_funcs[i])
             self._docs_tree.append_column(column)
 
         # Put the TreeView in a ScrolledWindow
@@ -64,7 +78,15 @@ class WinMkDocsManager(Gtk.Window):
         self._btn_add_doc.connect("clicked", self._on_new_doc)
         self._buttons_box.pack_end(self._btn_add_doc, False, True, 0)
 
-        print("Documents=", db.get_documents())
+        self._load_data_to_treeview()
+
+    def _load_data_to_treeview(self):
+        self._docs.clear()
+        self._docs_data = Document.deserialize_all(db.get_documents())
+
+        for doc in self._docs_data:
+            self._docs.append(None, (doc,))
+            print(doc)
 
     def _on_new_doc(self, button):
         """

@@ -37,10 +37,13 @@ def _on_window_destroyed(widget):
 
 def exit_program():
     # Close the database
-    config.mkdocs_config.close()
-    config.mkdocs_config = None
-    db.mkdocs_data.close()
-    db.mkdocs_data = None
+    if config.mkdocs_config is not None:
+        config.mkdocs_config.close()
+        config.mkdocs_config = None
+
+    if db.mkdocs_data is not None:
+        db.mkdocs_data.close()
+        db.mkdocs_data = None
 
     # Exit the main loop
     Gtk.main_quit()
